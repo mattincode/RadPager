@@ -98,13 +98,13 @@
                     <Border Background="{StaticResource Separator1}" HorizontalAlignment="Left" Height="18" Margin="5,0,0,0" VerticalAlignment="Center" Width="1"/>
                     <Border Background="{StaticResource Separator2}" HorizontalAlignment="Left" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" Width="1"/>
                     <!--<TextBlock Margin="2,0" telerik:LocalizationManager.ResourceKey="RadDataPagerPage" VerticalAlignment="Center"/>-->
-                    <TextBlock Margin="2,0" VerticalAlignment="Center"/>
+                    <TextBlock Margin="2,0" Text="Flik" VerticalAlignment="Center"/>
                     <!--<dataPager:DataPagerTextBox Command="controls:RadDataPagerCommands.MoveToPage" Height="20" Margin="2,0" PageIndex="{Binding PageIndex, RelativeSource={RelativeSource AncestorType=UserControl}}" telerik:StyleManager.Theme="{StaticResource Theme}" VerticalAlignment="Center" VerticalContentAlignment="Center" Width="48"/>-->
-                    <dataPager:DataPagerTextBox  Height="20" Margin="2,0" telerik:StyleManager.Theme="{StaticResource Theme}" VerticalAlignment="Center" VerticalContentAlignment="Center" Width="48"/>
+                    <dataPager:DataPagerTextBox  Text="{Binding CurrentPageNo, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="20" Margin="2,0" telerik:StyleManager.Theme="{StaticResource Theme}" IsReadOnly="True" VerticalAlignment="Center" VerticalContentAlignment="Top" Width="48"/>
                     <!--<TextBlock Margin="2,0" telerik:LocalizationManager.ResourceKey="RadDataPagerOf" VerticalAlignment="Center"/>-->
-                    <TextBlock Margin="2,0" VerticalAlignment="Center"/>
+                    <TextBlock Margin="2,0" Text="av" VerticalAlignment="Center"/>
                     <!--<TextBlock Margin="2,0" Text="{Binding PageCount, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center"/>-->
-                    <TextBlock Margin="2,0" Text="pageCount" VerticalAlignment="Center"/>
+                    <TextBlock Margin="2,0" Text="{Binding Pages.Count, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>

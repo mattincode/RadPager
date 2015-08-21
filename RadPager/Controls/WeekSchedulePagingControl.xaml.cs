@@ -66,6 +66,7 @@ namespace RadPager.Controls
             if (currentPage != null && currentPage != CurrentPage)
             {
                 CurrentPage = currentPage;
+                RaisePropertyChanged(() => CurrentPageNo);
             }
             UpdateButtons();
             
@@ -88,9 +89,12 @@ namespace RadPager.Controls
             {
                 VisiblePages = new ObservableCollection<LoadChunk>(pages.Take(Math.Min(pages.Count, MaxPages)).ToList());
                 CurrentPage = VisiblePages[0];
-                CurrentPage.IsSelected = true;                
+                CurrentPage.IsSelected = true;    
+                RaisePropertyChanged(() => CurrentPageNo);
             }
         }
+
+        public int CurrentPageNo { get { return Pages.IndexOf(CurrentPage) + 1; } }
 
         public ObservableCollection<LoadChunk> Pages
         {
