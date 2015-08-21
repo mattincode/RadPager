@@ -38,7 +38,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
                     <!--<telerik:RadButton x:Name="MoveToFirstPageButton" Command="controls:RadDataPagerCommands.MoveToFirstPage" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Visibility="{Binding PagerControlsVisibility.MoveToFirstPageControlVisibility, RelativeSource={RelativeSource TemplatedParent}}" Width="18">-->
-                    <telerik:RadButton x:Name="MoveToFirstPageButton" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Width="18">
+                    <telerik:RadButton x:Name="MoveToFirstPageButton" Click="MoveToFirstPageButton_OnClick" IsEnabled="{Binding IsFirstEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Width="18">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" VerticalAlignment="Center" Width="1"/>
                             <Path Data="M0,0 L3.5,3.5 0,7 Z" Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" RenderTransformOrigin="0.5, 0.5" VerticalAlignment="Center" Width="4">
@@ -54,7 +54,7 @@
                         </StackPanel>
                     </telerik:RadButton>
                     <!--<telerik:RadButton x:Name="MoveToPreviousPageButton" Command="controls:RadDataPagerCommands.MoveToPreviousPage" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Visibility="{Binding PagerControlsVisibility.MoveToPreviousPageControlVisibility, RelativeSource={RelativeSource TemplatedParent}}" Width="18">-->
-                    <telerik:RadButton x:Name="MoveToPreviousPageButton" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Width="18">
+                    <telerik:RadButton x:Name="MoveToPreviousPageButton" Click="MoveToPreviousPageButton_OnClick" IsEnabled="{Binding IsPreviousEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Width="18">
                         <Path Data="M0,0 L3.5,3.5 0,7 Z" Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" RenderTransformOrigin="0.5, 0.5" VerticalAlignment="Center" Width="4">
                             <Path.RenderTransform>
                                 <TransformGroup>
@@ -86,7 +86,7 @@
                         <Path Data="M0,0 L3.5,3.5 0,7 Z" Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" VerticalAlignment="Center" Width="4"/>
                     </telerik:RadButton>
                     <!--<telerik:RadButton x:Name="MoveToLastPageButton" Command="controls:RadDataPagerCommands.MoveToLastPage" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Visibility="{Binding PagerControlsVisibility.MoveToLastPageControlVisibility, RelativeSource={RelativeSource TemplatedParent}}" Width="18">-->
-                    <telerik:RadButton x:Name="MoveToLastPageButton" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}"  Width="18">
+                    <telerik:RadButton x:Name="MoveToLastPageButton" Click="MoveToLastPageButton_OnClick" IsEnabled="{Binding IsLastEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}"  Width="18">
                         <StackPanel Orientation="Horizontal">
                             <Path Data="M0,0 L3.5,3.5 0,7 Z" Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" VerticalAlignment="Center" Width="4"/>
                             <Rectangle Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" VerticalAlignment="Center" Width="1"/>

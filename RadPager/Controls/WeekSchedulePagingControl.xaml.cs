@@ -41,7 +41,21 @@ namespace RadPager.Controls
             var currentPageIndex = Pages.IndexOf(currentPage);
             if (!VisiblePages.Contains(currentPage))
             {
-                VisiblePages = new ObservableCollection<LoadChunk>(Pages.Skip(currentPageIndex).Take(MaxPages).ToList());
+                var lastPageIndex = Pages.Count() - 1;
+                if (Pages.Count <= MaxPages)
+                {
+                    VisiblePages = new ObservableCollection<LoadChunk>(Pages.ToList());
+                }
+                if ((lastPageIndex-currentPageIndex) < MaxPages)
+                {
+                    var firstindex = Pages.Count - MaxPages;
+                    VisiblePages = new ObservableCollection<LoadChunk>(Pages.Skip(firstindex).Take(MaxPages).ToList());
+                }
+                else
+                {
+                    VisiblePages = new ObservableCollection<LoadChunk>(Pages.Skip(currentPageIndex).Take(MaxPages).ToList());    
+                }
+                
             }
             
             foreach (var visiblePage in VisiblePages)
@@ -72,7 +86,7 @@ namespace RadPager.Controls
         {
             if (pages != null)
             {
-                VisiblePages = new ObservableCollection<LoadChunk>(pages.Take(MaxPages).ToList());
+                VisiblePages = new ObservableCollection<LoadChunk>(pages.Take(Math.Min(pages.Count, MaxPages)).ToList());
                 CurrentPage = VisiblePages[0];
                 CurrentPage.IsSelected = true;                
             }
@@ -106,6 +120,94 @@ namespace RadPager.Controls
         {
             InitializeComponent();            
         }
+
+
+        public bool IsNextEnabled
+        {
+            get { return _isNextEnabled; }
+            set { _isNextEnabled = value; RaisePropertyChanged(() => IsNextEnabled); }
+        }
+
+        public bool IsPreviousEnabled
+        {
+            get { return _isPreviousEnabled; }
+            set { _isPreviousEnabled = value; RaisePropertyChanged(() => IsPreviousEnabled); }
+        }
+
+        public bool IsFirstEnabled
+        {
+            get { return _isFirstEnabled; }
+            set { _isFirstEnabled = value; RaisePropertyChanged(() => IsFirstEnabled); }
+        }
+
+        public bool IsLastEnabled
+        {
+            get { return _isLastEnabled; }
+            set { _isLastEnabled = value; RaisePropertyChanged(() => IsLastEnabled); }
+        }
+
+        private void UpdateButtons()
+        {            
+            IsLastEnabled =  IsNextEnabled = (Pages != null && CurrentPage != null && CurrentPage != Pages.Last());
+            IsFirstEnabled = IsPreviousEnabled = (Pages != null && CurrentPage != null && CurrentPage != Pages.First());
+        }
+
+        #region Button events
+        private void PageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var ctrl = sender as RadRadioButton;
+            if (ctrl != null)
+            {
+                var page = ctrl.CommandParameter as LoadChunk;
+                if (page != null)
+                {
+                    UpdateCurrentPage(page);
+                }
+            }
+
+        }
+
+        // Workaround to fix initial IsSelected is not updating the button state
+        private void PageButton_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var ctrl = sender as RadRadioButton;
+            if (ctrl != null)
+            {
+                var page = ctrl.DataContext as LoadChunk;
+                if (page != null)
+                {
+                    if (page.IsSelected)
+                    {
+                        ctrl.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        private void MoveToNextPageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var indexCurrent = Pages.IndexOf(CurrentPage);
+            var next = Pages[indexCurrent + 1];
+            UpdateCurrentPage(next);
+        }
+
+        private void MoveToPreviousPageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var indexCurrent = Pages.IndexOf(CurrentPage);
+            var previous = Pages[indexCurrent - 1];
+            UpdateCurrentPage(previous);
+        }
+
+        private void MoveToFirstPageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentPage(Pages.First());
+        }
+
+        private void MoveToLastPageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentPage(Pages.Last());
+        }
+        #endregion
 
  
         #region INotify Implementation
@@ -194,6 +296,9 @@ namespace RadPager.Controls
 
         private ObservableCollection<LoadChunk> _visiblePages;
         private bool _isNextEnabled;
+        private bool _isPreviousEnabled;
+        private bool _isFirstEnabled;
+        private bool _isLastEnabled;
 
         /// <summary>
         ///     Collction of errors changed
@@ -354,57 +459,6 @@ namespace RadPager.Controls
             return propertyErrors.Count() == currentPropertyErrors.Count() && equals.All(b => b);
         }
         #endregion
-
-
-        private void PageButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var ctrl = sender as RadRadioButton;
-            if (ctrl != null)
-            {
-                var page = ctrl.CommandParameter as LoadChunk;
-                if (page != null)
-                {
-                    UpdateCurrentPage(page);
-                }
-            }
-
-        }
-
-        // Workaround to fix initial IsSelected is not updating the button state
-        private void PageButton_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var ctrl = sender as RadRadioButton;
-            if (ctrl != null)
-            {
-                var page = ctrl.DataContext as LoadChunk;
-                if (page != null)
-                {
-                    if (page.IsSelected)
-                    {
-                        ctrl.IsChecked = true;
-                    }
-                }
-            }            
-        }
-
-        public bool IsNextEnabled
-        {
-            get { return _isNextEnabled; }
-            set { _isNextEnabled = value; RaisePropertyChanged(() => IsNextEnabled); }
-        }
-
-
-        private void UpdateButtons()
-        {
-            IsNextEnabled = (Pages != null && CurrentPage != null && CurrentPage != Pages.Last());
-        }
-
-        private void MoveToNextPageButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var indexCurrent = Pages.IndexOf(CurrentPage);
-            var next = Pages[indexCurrent + 1];
-            UpdateCurrentPage(next);
-        }
     }
 
     //TODO Remove 
