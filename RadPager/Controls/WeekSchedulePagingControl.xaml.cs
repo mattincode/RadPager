@@ -46,8 +46,14 @@ namespace RadPager.Controls
             
             foreach (var visiblePage in VisiblePages)
             {
-                currentPage.IsSelected = (visiblePage == currentPage);
+                visiblePage.IsSelected = (visiblePage == currentPage);
             }
+
+            if (currentPage != null && currentPage != CurrentPage)
+            {
+                CurrentPage = currentPage;
+            }
+            UpdateButtons();
             
         }
 
@@ -56,7 +62,7 @@ namespace RadPager.Controls
         {
             var ctrl = d as WeekSchedulePagingControl;
             if (ctrl == null)
-                throw new Exception("Pagess context missing in WeekSchedulePagingControl!");
+                throw new Exception("Pages context missing in WeekSchedulePagingControl!");
 
             ctrl.UpdatePages(e.NewValue as ObservableCollection<LoadChunk>);
         }
@@ -83,16 +89,6 @@ namespace RadPager.Controls
             get { return _visiblePages; }
             set { _visiblePages = value; RaisePropertyChanged(() => VisiblePages); }
         }
-
-
-        //TODO: We need to have an internal pages collection that filters the pages and only presents the ones
-
-        //public static readonly DependencyProperty PageIndexProperty = DependencyProperty.Register("PageIndex", typeof(int), typeof(UserControl), new PropertyMetadata(null, null));
-        //public int PageIndex    
-        //{
-        //    get { return (int)GetValue(PageIndexProperty); }
-        //    set { SetValue(PageIndexProperty, value); }
-        //}
 
         // * Dep-props
         // CurrentPage (kopplad till CurrentPage (är en chunk))
@@ -197,6 +193,7 @@ namespace RadPager.Controls
         private readonly Dictionary<string, IEnumerable<string>> _errors = new Dictionary<string, IEnumerable<string>>();
 
         private ObservableCollection<LoadChunk> _visiblePages;
+        private bool _isNextEnabled;
 
         /// <summary>
         ///     Collction of errors changed
@@ -388,6 +385,25 @@ namespace RadPager.Controls
                     }
                 }
             }            
+        }
+
+        public bool IsNextEnabled
+        {
+            get { return _isNextEnabled; }
+            set { _isNextEnabled = value; RaisePropertyChanged(() => IsNextEnabled); }
+        }
+
+
+        private void UpdateButtons()
+        {
+            IsNextEnabled = (Pages != null && CurrentPage != null && CurrentPage != Pages.Last());
+        }
+
+        private void MoveToNextPageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var indexCurrent = Pages.IndexOf(CurrentPage);
+            var next = Pages[indexCurrent + 1];
+            UpdateCurrentPage(next);
         }
     }
 

@@ -23,8 +23,7 @@
             <SolidColorBrush x:Key="Indicator" Color="Black"/>
             <SolidColorBrush x:Key="NumericPresenter_Background" Color="#FF929292"/>
             <SolidColorBrush x:Key="Separator1" Color="White"/>
-            <SolidColorBrush x:Key="Separator2" Color="#FF848484"/>
-            <converters:SelectedPageToBrushConverter x:Key="SelectedPageToBrushConverter" />
+            <SolidColorBrush x:Key="Separator2" Color="#FF848484"/>            
             <DataTemplate x:Key="PageButtonTemplate">                
                 <telerik:RadRadioButton x:Name="PageButton" Margin="1" Padding="2" BorderThickness="0" CommandParameter="{Binding}" IsChecked="{Binding IsSelected}" Loaded="PageButton_OnLoaded" Click="PageButton_OnClick" IsEnabled="{Binding IsLoaded}" Background="White">                
                     <TextBlock Padding="4,0" Text="{Binding DisplayText}"/>                
@@ -83,7 +82,7 @@
                         <!--<DataPager:NumericElementsPresenter AutoEllipsisMode="{TemplateBinding AutoEllipsisMode}" NumericButtonStyle="{TemplateBinding NumericButtonStyle}" NumericButtonCount="{TemplateBinding NumericButtonCount}" PageCount="{TemplateBinding PageCount}" PageIndex="{TemplateBinding PageIndex}" telerik:StyleManager.Theme="{StaticResource Theme}"/>-->
                     </Border>
                     <!--<telerik:RadButton x:Name="MoveToNextPageButton" Command="controls:RadDataPagerCommands.MoveToNextPage" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Visibility="{Binding PagerControlsVisibility.MoveToNextPageControlVisibility, RelativeSource={RelativeSource TemplatedParent}}" Width="18">-->
-                    <telerik:RadButton x:Name="MoveToNextPageButton" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}"  Width="18">
+                    <telerik:RadButton x:Name="MoveToNextPageButton" Height="18" Margin="2" Click="MoveToNextPageButton_OnClick" IsEnabled="{Binding IsNextEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" telerik:StyleManager.Theme="{StaticResource Theme}"  Width="18">
                         <Path Data="M0,0 L3.5,3.5 0,7 Z" Fill="{StaticResource Indicator}" HorizontalAlignment="Center" Height="7" VerticalAlignment="Center" Width="4"/>
                     </telerik:RadButton>
                     <!--<telerik:RadButton x:Name="MoveToLastPageButton" Command="controls:RadDataPagerCommands.MoveToLastPage" Height="18" Margin="2" telerik:StyleManager.Theme="{StaticResource Theme}" Visibility="{Binding PagerControlsVisibility.MoveToLastPageControlVisibility, RelativeSource={RelativeSource TemplatedParent}}" Width="18">-->
