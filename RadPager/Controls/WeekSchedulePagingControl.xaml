@@ -25,24 +25,10 @@
             <SolidColorBrush x:Key="Separator1" Color="White"/>
             <SolidColorBrush x:Key="Separator2" Color="#FF848484"/>
             <converters:SelectedPageToBrushConverter x:Key="SelectedPageToBrushConverter" />
-            <DataTemplate x:Key="PageButtonTemplate">
-                <!--Flat button....-->
-                <telerik:RadButton Margin="1" Padding="2" BorderThickness="0" Background="{Binding IsSelected, Converter={StaticResource SelectedPageToBrushConverter}}">
-                    <TextBlock Padding="4,0" Text="{Binding DisplayText}"/>
-                </telerik:RadButton>
-                <!--<StackPanel Orientation="Horizontal">
-                    <Image Width="25"
-                       Height="25"
-                       VerticalAlignment="Top"
-                       Source="/Securitas.GSP.RiaClient.UIResources;component/Images/Clipboard.png"
-                       Visibility="{Binding ImageVisible,
-                                            Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <TextBlock MaxWidth="325"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="{Binding Text}"
-                           TextWrapping="Wrap" />
-                </StackPanel>-->
+            <DataTemplate x:Key="PageButtonTemplate">                
+                <telerik:RadRadioButton x:Name="PageButton" Margin="1" Padding="2" BorderThickness="0" CommandParameter="{Binding}" IsChecked="{Binding IsSelected}" Loaded="PageButton_OnLoaded" Click="PageButton_OnClick" IsEnabled="{Binding IsLoaded}" Background="White">                
+                    <TextBlock Padding="4,0" Text="{Binding DisplayText}"/>                
+                </telerik:RadRadioButton>
             </DataTemplate>
         </Grid.Resources>
         <Border BorderBrush="{StaticResource Separator2}" BorderThickness="1" Background="{StaticResource Outer_Border}">

@@ -8,6 +8,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Telerik.Windows.Controls;
 
 namespace RadPager.Controls
 {
@@ -37,7 +39,11 @@ namespace RadPager.Controls
         {
             if (Pages == null) return;
             var currentPageIndex = Pages.IndexOf(currentPage);
-            VisiblePages = new ObservableCollection<LoadChunk>(Pages.Skip(currentPageIndex).Take(MaxPages).ToList());
+            if (!VisiblePages.Contains(currentPage))
+            {
+                VisiblePages = new ObservableCollection<LoadChunk>(Pages.Skip(currentPageIndex).Take(MaxPages).ToList());
+            }
+            
             foreach (var visiblePage in VisiblePages)
             {
                 currentPage.IsSelected = (visiblePage == currentPage);
@@ -62,7 +68,7 @@ namespace RadPager.Controls
             {
                 VisiblePages = new ObservableCollection<LoadChunk>(pages.Take(MaxPages).ToList());
                 CurrentPage = VisiblePages[0];
-                CurrentPage.IsSelected = true;
+                CurrentPage.IsSelected = true;                
             }
         }
 
@@ -102,9 +108,10 @@ namespace RadPager.Controls
 
         public WeekSchedulePagingControl()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
+ 
         #region INotify Implementation
         /// <summary>
         /// Raised when a property on this object has a new value.
@@ -351,12 +358,49 @@ namespace RadPager.Controls
         }
         #endregion
 
+
+        private void PageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var ctrl = sender as RadRadioButton;
+            if (ctrl != null)
+            {
+                var page = ctrl.CommandParameter as LoadChunk;
+                if (page != null)
+                {
+                    UpdateCurrentPage(page);
+                }
+            }
+
+        }
+
+        // Workaround to fix initial IsSelected is not updating the button state
+        private void PageButton_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var ctrl = sender as RadRadioButton;
+            if (ctrl != null)
+            {
+                var page = ctrl.DataContext as LoadChunk;
+                if (page != null)
+                {
+                    if (page.IsSelected)
+                    {
+                        ctrl.IsChecked = true;
+                    }
+                }
+            }            
+        }
     }
 
     //TODO Remove 
     public class LoadChunk : BaseViewModel
     {
+        public LoadChunk()
+        {
+            IsLoaded = true; // TODO:
+        }
+
         private bool _isSelected;
+        private bool _isLoaded;
         public int StartPlanningUnitId { get; set; }
         public string StartPlanningUnitNumber { get; set; }
         public int EndPlanningUnitId { get; set; }
@@ -368,6 +412,12 @@ namespace RadPager.Controls
         {
             get { return _isSelected; }
             set { _isSelected = value; RaisePropertyChanged(() => IsSelected); }
+        }
+
+        public bool IsLoaded
+        {
+            get { return _isLoaded; }
+            set { _isLoaded = value; RaisePropertyChanged(() => IsLoaded); }
         }
     }
 }
