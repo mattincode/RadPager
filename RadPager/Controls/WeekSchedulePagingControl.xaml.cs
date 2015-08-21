@@ -85,8 +85,13 @@ namespace RadPager.Controls
 
         private void UpdatePages(ObservableCollection<LoadChunk> pages)
         {
-            if (pages != null)
+            if (pages == null || pages.Count == 1)
             {
+                this.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.Visibility = Visibility.Visible;
                 VisiblePages = new ObservableCollection<LoadChunk>(pages.Take(Math.Min(pages.Count, MaxPages)).ToList());
                 CurrentPage = VisiblePages[0];
                 CurrentPage.IsSelected = true;    

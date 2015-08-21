@@ -48,8 +48,8 @@ public class TestVm : BaseViewModel
             pos = end + 1;
             chunkList.Add(new LoadChunk() { StartPlanningUnitId = start, EndPlanningUnitId = end, StartPlanningUnitNumber = start.ToString(), EndPlanningUnitNumber= end.ToString(), PlanningUnitIds = peIds});
         }
-        ItemXs = new ObservableCollection<ItemX>(list);
-        PagesCollection = new ObservableCollection<LoadChunk>(chunkList);
+        ItemXs = new ObservableCollection<ItemX>(list);        
+        PagesCollection = new ObservableCollection<LoadChunk>(chunkList.Take(40));
         CurrentPage = PagesCollection[0];
     }
 
