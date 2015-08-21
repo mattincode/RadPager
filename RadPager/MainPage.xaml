@@ -19,7 +19,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <telerik:RadGridView x:Name="GridX2" Grid.Row="0" ItemsSource="{Binding ItemXs}"/>
-            <controls:WeekSchedulePagingControl Grid.Row="1"/>
+            <controls:WeekSchedulePagingControl Pages="{Binding PagesCollection}" Grid.Row="1"/>
         </Grid>
         <Grid Grid.Row="1" x:Name="LayoutRoot" Background="White">
             <Grid.RowDefinitions>
